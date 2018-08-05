@@ -3,7 +3,7 @@ package com.richie.opengl.activity;
 import android.os.Bundle;
 
 import com.richie.opengl.R;
-import com.richie.opengl.view.TriangleView;
+import com.richie.opengl.view.triangle.TriangleView;
 
 public class TriangleActivity extends DetailActivity {
 

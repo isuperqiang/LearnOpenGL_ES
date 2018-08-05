@@ -1,8 +1,10 @@
-package com.richie.opengl.view;
+package com.richie.opengl.view.triangle;
 
 import android.opengl.GLES20;
+import android.opengl.Matrix;
 
 import com.richie.opengl.util.GLESUtils;
+import com.richie.opengl.view.GraphRender;
 
 import java.nio.FloatBuffer;
 
@@ -23,7 +25,7 @@ public class Triangle implements GraphRender {
                     "  gl_FragColor = uColor;" +
                     "}";
     // Set color with red, green, blue and alpha (opacity) values
-    private static final float[] COLORS = {0.4f, 0.5f, 0.8f, 1.0f};
+    private static final float[] COLORS = {0.8f, 0.5f, 0.3f, 1.0f};
     // number of coordinates per vertex in this array
     private static final int COORDS_PER_VERTEX = 3;
     private static final float[] COORDS = {
@@ -33,6 +35,9 @@ public class Triangle implements GraphRender {
     };
     private FloatBuffer mFloatBuffer;
     private int mProgram;
+    private float[] mMvpMatrix = new float[16];
+    private float[] mViewMatrix = new float[16];
+    private float[] mProjectionMatrix = new float[16];
 
     @Override
     public void onSurfaceCreated() {
@@ -44,11 +49,14 @@ public class Triangle implements GraphRender {
 
     @Override
     public void onSurfaceChanged(int width, int height) {
-
+        float ratio = (float) width / height;
+        Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 3, 6);
+        Matrix.setLookAtM(mViewMatrix, 0, 0, 0, 3, 0, 0, 0, 0, 1, 0);
+        Matrix.multiplyMM(mMvpMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
     }
 
     @Override
-    public void onDrawFrame(float[] matrix) {
+    public void onDrawFrame() {
         GLES20.glUseProgram(mProgram);
         int position = GLES20.glGetAttribLocation(mProgram, "aPosition");
         GLES20.glEnableVertexAttribArray(position);
@@ -59,7 +67,7 @@ public class Triangle implements GraphRender {
         GLES20.glUniform4fv(color, 1, COLORS, 0);
 
         int mvpMatrix = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
-        GLES20.glUniformMatrix4fv(mvpMatrix, 1, false, matrix, 0);
+        GLES20.glUniformMatrix4fv(mvpMatrix, 1, false, mMvpMatrix, 0);
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, COORDS.length / COORDS_PER_VERTEX);
 
         GLES20.glDisableVertexAttribArray(position);

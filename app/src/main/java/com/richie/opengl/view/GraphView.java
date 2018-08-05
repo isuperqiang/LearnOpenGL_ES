@@ -44,7 +44,7 @@ public abstract class GraphView extends GLSurfaceView implements GLSurfaceView.R
 
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
-        logger.debug("onSurfaceCreated. eglConfig:{}", eglConfig);
+        logger.debug("onSurfaceCreated");
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     }
 

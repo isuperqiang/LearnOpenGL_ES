@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".activity.TriangleActivity">
 
-    <com.richie.opengl.view.TriangleView
+    <com.richie.opengl.view.triangle.TriangleView
         android:id="@+id/triangle_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

@@ -8,5 +8,5 @@ public interface GraphRender {
 
     void onSurfaceChanged(int width, int height);
 
-    void onDrawFrame(float[] matrix);
+    void onDrawFrame();
 }
