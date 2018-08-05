@@ -28,8 +28,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, "不支持 GLES 2.0", Toast.LENGTH_SHORT).show();
         }
 
-        findViewById(R.id.btn_graph).setOnClickListener(this);
         findViewById(R.id.btn_triangle).setOnClickListener(this);
+        findViewById(R.id.btn_square).setOnClickListener(this);
+        findViewById(R.id.btn_graph).setOnClickListener(this);
         findViewById(R.id.btn_camera1).setOnClickListener(this);
         findViewById(R.id.btn_camera2).setOnClickListener(this);
 
@@ -53,16 +54,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent;
         if (id == R.id.btn_triangle) {
             intent = new Intent(this, TriangleActivity.class);
-            //} else if (id == R.id.btn_triangle) {
-            //    Intent intent = new Intent(this, TriangleActivity.class);
-            startActivity(intent);
-            //} else if (id == R.id.btn_camera1) {
-            //    Intent intent = new Intent(this, CameraActivity.class);
-            //    startActivity(intent);
-            //} else if (id == R.id.btn_camera2) {
-            //    Intent intent = new Intent(this, Camera2Activity.class);
-            //    startActivity(intent);
+        } else if (id == R.id.btn_square) {
+            intent = new Intent(this, SquareActivity.class);
+        } else {
+            intent = new Intent(this, MainActivity.class);
         }
+        //} else if (id == R.id.btn_triangle) {
+        //    Intent intent = new Intent(this, TriangleActivity.class);
+        startActivity(intent);
+        //} else if (id == R.id.btn_camera1) {
+        //    Intent intent = new Intent(this, CameraActivity.class);
+        //    startActivity(intent);
+        //} else if (id == R.id.btn_camera2) {
+        //    Intent intent = new Intent(this, Camera2Activity.class);
+        //    startActivity(intent);
         //startActivity(intent);
     }
 }

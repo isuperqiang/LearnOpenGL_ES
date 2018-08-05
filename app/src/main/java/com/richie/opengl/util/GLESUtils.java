@@ -9,6 +9,10 @@ import android.opengl.Matrix;
 import com.richie.easylog.ILogger;
 import com.richie.easylog.LoggerFactory;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -29,8 +33,16 @@ public class GLESUtils {
     private GLESUtils() {
     }
 
+    public static int createVertexShader(String shaderCode) {
+        return createShader(GLES20.GL_VERTEX_SHADER, shaderCode);
+    }
+
+    public static int createFragmentShader(String shaderCode) {
+        return createShader(GLES20.GL_FRAGMENT_SHADER, shaderCode);
+    }
+
     // 着色器包含了OpenGL Shading Language（GLSL）代码，它必须先被编译然后才能在OpenGL环境中使用。
-    public static int loadShader(int type, String shaderCode) {
+    public static int createShader(int type, String shaderCode) {
         // create a vertex shader type (GLES20.GL_VERTEX_SHADER)
         // or a fragment shader type (GLES20.GL_FRAGMENT_SHADER)
         int shader = GLES20.glCreateShader(type);
@@ -182,4 +194,23 @@ public class GLESUtils {
         return configurationInfo.reqGlEsVersion >= 0x2000;
     }
 
+    public static String readTextFileFromResource(Context context, int resourceId) throws IOException {
+        StringBuilder body = new StringBuilder();
+        BufferedReader bufferedReader = null;
+        try {
+            InputStream inputStream = context.getResources().openRawResource(resourceId);
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            bufferedReader = new BufferedReader(inputStreamReader);
+            String nextLine;
+            while ((nextLine = bufferedReader.readLine()) != null) {
+                body.append(nextLine);
+                body.append('\n');
+            }
+        } finally {
+            if (bufferedReader != null) {
+                bufferedReader.close();
+            }
+        }
+        return body.toString();
+    }
 }

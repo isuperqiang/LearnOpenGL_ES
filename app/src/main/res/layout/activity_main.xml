@@ -6,13 +6,18 @@
     android:orientation="vertical"
     tools:context=".activity.MainActivity">
 
-
     <Button
         android:id="@+id/btn_triangle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="三角形" />
+
+    <Button
+        android:id="@+id/btn_square"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="矩形" />
 
     <Button
         android:id="@+id/btn_graph"

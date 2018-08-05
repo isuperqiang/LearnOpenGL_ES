@@ -1,4 +1,4 @@
-package com.richie.opengl.view.triangle;
+package com.richie.opengl.view.square;
 
 import android.opengl.GLES20;
 import android.opengl.Matrix;
@@ -11,7 +11,7 @@ import java.nio.FloatBuffer;
 /**
  * @author Richie on 2018.08.05
  */
-public class Triangle implements GraphRender {
+public class Square implements GraphRender {
     private static final String VERTEX_SHADER =
             "uniform mat4 uMVPMatrix;" +
                     "attribute vec4 aPosition;" +
@@ -24,15 +24,14 @@ public class Triangle implements GraphRender {
                     "void main() {" +
                     "  gl_FragColor = uColor;" +
                     "}";
-    // Set color with red, green, blue and alpha (opacity) values
-    private static final float[] COLORS = {0.8f, 0.5f, 0.3f, 1.0f};
-    // number of coordinates per vertex in this array
     private static final int COORDS_PER_VERTEX = 2;
-    private static final float[] COORDS = {
-            0, 0.6f,
-            -0.6f, -0.3f,
-            0.6f, -0.3f,
+    private static final float[] VERTEX_COORDS = {
+            0.5f, 0.5f,
+            -0.5f, 0.5f,
+            0.5f, -0.5f,
+            -0.5f, -0.5f
     };
+    private static final float[] COLORS = {0.6f, 0.8f, 0.6f, 1.0f};
     private FloatBuffer mVertexBuffer;
     private int mProgram;
     private float[] mMvpMatrix = new float[16];
@@ -41,7 +40,7 @@ public class Triangle implements GraphRender {
 
     @Override
     public void onSurfaceCreated() {
-        mVertexBuffer = GLESUtils.createFloatBuffer(COORDS);
+        mVertexBuffer = GLESUtils.createFloatBuffer(VERTEX_COORDS);
         int vertexShader = GLESUtils.createVertexShader(VERTEX_SHADER);
         int fragmentShader = GLESUtils.createFragmentShader(FRAGMENT_SHADER);
         mProgram = GLESUtils.createProgram(vertexShader, fragmentShader);
@@ -58,6 +57,9 @@ public class Triangle implements GraphRender {
     @Override
     public void onDrawFrame() {
         GLES20.glUseProgram(mProgram);
+        int mvpMatrix = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
+        GLES20.glUniformMatrix4fv(mvpMatrix, 1, false, mMvpMatrix, 0);
+
         int position = GLES20.glGetAttribLocation(mProgram, "aPosition");
         GLES20.glEnableVertexAttribArray(position);
         GLES20.glVertexAttribPointer(position, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false,
@@ -66,10 +68,7 @@ public class Triangle implements GraphRender {
         int color = GLES20.glGetUniformLocation(mProgram, "uColor");
         GLES20.glUniform4fv(color, 1, COLORS, 0);
 
-        int mvpMatrix = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
-        GLES20.glUniformMatrix4fv(mvpMatrix, 1, false, mMvpMatrix, 0);
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, COORDS.length / COORDS_PER_VERTEX);
-
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
         GLES20.glDisableVertexAttribArray(position);
     }
 }
