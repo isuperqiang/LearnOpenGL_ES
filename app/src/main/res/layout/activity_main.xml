@@ -14,6 +14,12 @@
         android:text="三角形" />
 
     <Button
+        android:id="@+id/btn_triangle_color"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="多彩三角形" />
+
+    <Button
         android:id="@+id/btn_square"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         findViewById(R.id.btn_triangle).setOnClickListener(this);
+        findViewById(R.id.btn_triangle_color).setOnClickListener(this);
         findViewById(R.id.btn_square).setOnClickListener(this);
         findViewById(R.id.btn_graph).setOnClickListener(this);
         findViewById(R.id.btn_camera1).setOnClickListener(this);
@@ -54,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent;
         if (id == R.id.btn_triangle) {
             intent = new Intent(this, TriangleActivity.class);
+        } else if (id == R.id.btn_triangle_color) {
+            intent = new Intent(this, TriangleColorfulActivity.class);
         } else if (id == R.id.btn_square) {
             intent = new Intent(this, SquareActivity.class);
         } else {

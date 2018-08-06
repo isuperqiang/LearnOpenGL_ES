@@ -1,4 +1,4 @@
-package com.richie.opengl.view.square;
+package com.richie.opengl.view.triangle;
 
 import android.opengl.GLES20;
 import android.opengl.Matrix;
@@ -11,28 +11,38 @@ import java.nio.FloatBuffer;
 /**
  * @author Richie on 2018.08.05
  */
-public class Square implements GraphRender {
+public class TriangleColorful implements GraphRender {
     private static final String VERTEX_SHADER =
             "uniform mat4 uMVPMatrix;" +
                     "attribute vec4 aPosition;" +
+                    "attribute vec4 aColor;" +
+                    "varying vec4 vColor;" +
                     "void main() {" +
                     "  gl_Position = uMVPMatrix * aPosition;" +
+                    "  vColor = aColor;" +
                     "}";
     private static final String FRAGMENT_SHADER =
             "precision mediump float;" +
-                    "uniform vec4 uColor;" +
+                    "varying vec4 vColor;" +
                     "void main() {" +
-                    "  gl_FragColor = uColor;" +
+                    "  gl_FragColor = vColor;" +
                     "}";
-    private static final int COORDS_PER_VERTEX = 2;
-    private static final float[] VERTEX_COORDS = {
-            0.5f, 0.5f,
-            -0.5f, 0.5f,
-            0.5f, -0.5f,
-            -0.5f, -0.5f
+    // Set color with red, green, blue and alpha (opacity) values
+    private static final float[] COLORS = {
+            0.8f, 0.2f, 0.3f, 1.0f,
+            0.2f, 0.6f, 0.2f, 1.0f,
+            0.2f, 0.2f, 0.8f, 1.0f
     };
-    private static final float[] COLORS = {0.6f, 0.8f, 0.6f, 1.0f};
+    // number of coordinates per vertex in this array
+    private static final int COORDS_PER_VERTEX = 2;
+    private static final int COORDS_PER_COLOR = 4;
+    private static final float[] COORDS = {
+            0, 0.6f,
+            -0.6f, -0.3f,
+            0.6f, -0.3f,
+    };
     private FloatBuffer mVertexBuffer;
+    private FloatBuffer mColorBuffer;
     private int mProgram;
     private float[] mMvpMatrix = new float[16];
     private float[] mViewMatrix = new float[16];
@@ -40,7 +50,8 @@ public class Square implements GraphRender {
 
     @Override
     public void onSurfaceCreated() {
-        mVertexBuffer = GLESUtils.createFloatBuffer(VERTEX_COORDS);
+        mVertexBuffer = GLESUtils.createFloatBuffer(COORDS);
+        mColorBuffer = GLESUtils.createFloatBuffer(COLORS);
         int vertexShader = GLESUtils.createVertexShader(VERTEX_SHADER);
         int fragmentShader = GLESUtils.createFragmentShader(FRAGMENT_SHADER);
         mProgram = GLESUtils.createProgram(vertexShader, fragmentShader);
@@ -57,19 +68,22 @@ public class Square implements GraphRender {
     @Override
     public void onDrawFrame() {
         GLES20.glUseProgram(mProgram);
-        int mvpMatrix = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
-        GLES20.glUniformMatrix4fv(mvpMatrix, 1, false, mMvpMatrix, 0);
-
         int position = GLES20.glGetAttribLocation(mProgram, "aPosition");
         GLES20.glEnableVertexAttribArray(position);
         GLES20.glVertexAttribPointer(position, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false,
                 COORDS_PER_VERTEX * GLESUtils.SIZEOF_FLOAT, mVertexBuffer);
 
-        int color = GLES20.glGetUniformLocation(mProgram, "uColor");
-        GLES20.glUniform4fv(color, 1, COLORS, 0);
+        int color = GLES20.glGetAttribLocation(mProgram, "aColor");
+        GLES20.glEnableVertexAttribArray(color);
+        GLES20.glVertexAttribPointer(color, COORDS_PER_COLOR, GLES20.GL_FLOAT, false,
+                COORDS_PER_COLOR * GLESUtils.SIZEOF_FLOAT, mColorBuffer);
 
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
+        int mvpMatrix = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
+        GLES20.glUniformMatrix4fv(mvpMatrix, 1, false, mMvpMatrix, 0);
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, COORDS.length / COORDS_PER_VERTEX);
+
         GLES20.glDisableVertexAttribArray(position);
+        GLES20.glDisableVertexAttribArray(color);
         GLES20.glUseProgram(0);
     }
 }

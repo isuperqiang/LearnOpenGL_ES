@@ -71,5 +71,6 @@ public class Triangle implements GraphRender {
         GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, COORDS.length / COORDS_PER_VERTEX);
 
         GLES20.glDisableVertexAttribArray(position);
+        GLES20.glUseProgram(0);
     }
 }
