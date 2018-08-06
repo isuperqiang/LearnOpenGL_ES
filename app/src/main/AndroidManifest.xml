@@ -15,6 +15,7 @@
     <uses-feature android:name="android.hardware.camera" />
 
     <application
+        android:name=".GlApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -33,6 +34,7 @@
         <activity android:name=".activity.TriangleActivity" />
         <activity android:name=".activity.TriangleColorfulActivity" />
         <activity android:name=".activity.SquareActivity" />
+        <activity android:name=".activity.ImageActivity"></activity>
     </application>
 
 </manifest>

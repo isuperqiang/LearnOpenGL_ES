@@ -11,13 +11,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
-import com.richie.easylog.ILogger;
-import com.richie.easylog.LoggerFactory;
 import com.richie.opengl.R;
 import com.richie.opengl.util.GLESUtils;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private final ILogger logger = LoggerFactory.getLogger(MainActivity.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,18 +56,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             intent = new Intent(this, TriangleColorfulActivity.class);
         } else if (id == R.id.btn_square) {
             intent = new Intent(this, SquareActivity.class);
+        } else if (id == R.id.btn_graph) {
+            intent = new Intent(this, ImageActivity.class);
         } else {
             intent = new Intent(this, MainActivity.class);
         }
-        //} else if (id == R.id.btn_triangle) {
-        //    Intent intent = new Intent(this, TriangleActivity.class);
         startActivity(intent);
-        //} else if (id == R.id.btn_camera1) {
-        //    Intent intent = new Intent(this, CameraActivity.class);
-        //    startActivity(intent);
-        //} else if (id == R.id.btn_camera2) {
-        //    Intent intent = new Intent(this, Camera2Activity.class);
-        //    startActivity(intent);
-        //startActivity(intent);
     }
 }
