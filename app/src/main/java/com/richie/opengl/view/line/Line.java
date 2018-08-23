@@ -1,9 +1,9 @@
 package com.richie.opengl.view.line;
 
 import android.opengl.GLES20;
-import android.opengl.Matrix;
 
 import com.richie.opengl.util.GLESUtils;
+import com.richie.opengl.util.MatrixState;
 import com.richie.opengl.view.GraphRender;
 
 import java.nio.FloatBuffer;
@@ -45,9 +45,15 @@ public class Line implements GraphRender {
     private int mColorHandle;
     private int mMvpMatrixHandle;
 
+    private MatrixState mMatrixState;
+
+    public Line() {
+        mVertexBuffer = GLESUtils.createFloatBuffer(VERTEX_COORDS);
+        mMatrixState = new MatrixState();
+    }
+
     @Override
     public void onSurfaceCreated() {
-        mVertexBuffer = GLESUtils.createFloatBuffer(VERTEX_COORDS);
         int vertexShader = GLESUtils.createVertexShader(VERTEX_SHADER);
         int fragmentShader = GLESUtils.createFragmentShader(FRAGMENT_SHADER);
         mProgram = GLESUtils.createProgram(vertexShader, fragmentShader);
@@ -59,9 +65,12 @@ public class Line implements GraphRender {
     @Override
     public void onSurfaceChanged(int width, int height) {
         float ratio = (float) width / height;
-        Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 2.5f, 6);
-        Matrix.setLookAtM(mViewMatrix, 0, 0, 0, 3, 0, 0, 0, 0, 1, 0);
-        Matrix.multiplyMM(mMvpMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
+        mMatrixState.frustum(-ratio, ratio, -1, 1, 2.5f, 6);
+        mMatrixState.setCamera(0, 0, 3, 0, 0, 0, 0, 1, 0);
+        mMatrixState.translate(0.2f, 0, 0);
+        mMatrixState.rotate(30, 0, 0, 1);
+        mMatrixState.scale(1, 0.8f, 1);
+        mMvpMatrix = mMatrixState.getFinalMatrix();
     }
 
     @Override

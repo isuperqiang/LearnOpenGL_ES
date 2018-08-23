@@ -68,8 +68,6 @@ public class Image implements GraphRender {
 
     @Override
     public void onSurfaceChanged(int width, int height) {
-        GLES20.glViewport(0, 0, width, height);
-
         // 计算图片缩放
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inScaled = false;
