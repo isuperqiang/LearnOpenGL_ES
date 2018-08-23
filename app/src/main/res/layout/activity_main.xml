@@ -32,6 +32,12 @@
         android:text="图像" />
 
     <Button
+        android:id="@+id/btn_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="线条" />
+
+    <Button
         android:id="@+id/btn_camera1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

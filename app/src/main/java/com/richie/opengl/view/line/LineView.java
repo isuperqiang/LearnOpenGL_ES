@@ -1,4 +1,4 @@
-package com.richie.opengl.view.square;
+package com.richie.opengl.view.line;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -9,40 +9,40 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 /**
- * @author Richie on 2018.08.05
+ * @author Richie on 2018.08.23
  */
-public class SquareView extends GraphView {
-    private Square mSquare;
+public class LineView extends GraphView {
+    private Line mLine;
 
-    public SquareView(Context context) {
+    public LineView(Context context) {
         super(context);
     }
 
-    public SquareView(Context context, AttributeSet attrs) {
+    public LineView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
     @Override
     protected void onConstruct() {
         super.onConstruct();
-        mSquare = new Square();
+        mLine = new Line();
     }
 
     @Override
     public void onSurfaceCreated(GL10 gl10, EGLConfig eglConfig) {
         super.onSurfaceCreated(gl10, eglConfig);
-        mSquare.onSurfaceCreated();
+        mLine.onSurfaceCreated();
     }
 
     @Override
     public void onSurfaceChanged(GL10 gl10, int width, int height) {
         super.onSurfaceChanged(gl10, width, height);
-        mSquare.onSurfaceChanged(width, height);
+        mLine.onSurfaceChanged(width, height);
     }
 
     @Override
     public void onDrawFrame(GL10 gl10) {
         super.onDrawFrame(gl10);
-        mSquare.onDrawFrame();
+        mLine.onDrawFrame();
     }
 }

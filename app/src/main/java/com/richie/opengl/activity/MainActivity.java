@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_triangle_color).setOnClickListener(this);
         findViewById(R.id.btn_square).setOnClickListener(this);
         findViewById(R.id.btn_graph).setOnClickListener(this);
+        findViewById(R.id.btn_line).setOnClickListener(this);
         findViewById(R.id.btn_camera1).setOnClickListener(this);
         findViewById(R.id.btn_camera2).setOnClickListener(this);
 
@@ -58,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             intent = new Intent(this, SquareActivity.class);
         } else if (id == R.id.btn_graph) {
             intent = new Intent(this, ImageActivity.class);
+        } else if (id == R.id.btn_line) {
+            intent = new Intent(this, LineActivity.class);
         } else {
             intent = new Intent(this, MainActivity.class);
         }
