@@ -4,7 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 /**
- * @author LiuQiang on 2018.08.03
+ * @author Richie on 2018.08.03
  */
 public class GlApp extends Application {
 
