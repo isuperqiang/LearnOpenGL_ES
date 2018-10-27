@@ -30,7 +30,7 @@ public class MatrixState {
 
     //保护现场
     public void pushMatrix() {
-        mStack.push(Arrays.copyOf(mMatrixCurrent, 16));
+        mStack.push(Arrays.copyOf(mMatrixCurrent, mMatrixCurrent.length));
     }
 
     //恢复现场
