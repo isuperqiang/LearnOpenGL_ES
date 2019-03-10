@@ -37,16 +37,4 @@
         android:layout_height="wrap_content"
         android:text="线条" />
 
-    <Button
-        android:id="@+id/btn_camera1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="相机 Surface" />
-
-    <Button
-        android:id="@+id/btn_camera2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="相机 Texture" />
-
 </LinearLayout>

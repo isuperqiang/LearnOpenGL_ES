@@ -55,7 +55,7 @@ public class Triangle implements GraphRender {
 
     @Override
     public void onSurfaceChanged(int width, int height) {
-        float ratio = (float) width / height;
+        float ratio = 1.0f * width / height;
         Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 2.5f, 6);
         Matrix.setLookAtM(mViewMatrix, 0, 0, 0, 3, 0, 0, 0, 0, 1, 0);
         Matrix.multiplyMM(mMvpMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);

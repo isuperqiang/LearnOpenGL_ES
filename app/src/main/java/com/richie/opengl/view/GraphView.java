@@ -57,5 +57,8 @@ public abstract class GraphView extends GLSurfaceView implements GLSurfaceView.R
     @Override
     public void onDrawFrame(GL10 gl10) {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+        onDrawFrame();
     }
+
+    protected abstract void onDrawFrame();
 }

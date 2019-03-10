@@ -49,9 +49,9 @@ public class GLESUtils {
         GLES20.glShaderSource(shader, shaderCode);
         // add the source code to the shader and compile it
         GLES20.glCompileShader(shader);
-        int[] compiled = new int[1];
-        GLES20.glGetShaderiv(shader, GLES20.GL_COMPILE_STATUS, compiled, 0);
-        if (compiled[0] == 0) {
+        int[] compileStatus = new int[1];
+        GLES20.glGetShaderiv(shader, GLES20.GL_COMPILE_STATUS, compileStatus, 0);
+        if (compileStatus[0] == 0) {
             logger.error("Could not compile shader:{}, error:{}", type, GLES20.glGetShaderInfoLog(shader));
             GLES20.glDeleteShader(shader);
             shader = 0;
@@ -61,13 +61,14 @@ public class GLESUtils {
 
     public static int createProgram(int vertexShader, int fragmentShader) {
         if (vertexShader == 0 || fragmentShader == 0) {
-            logger.error("shader cant be 0!");
+            logger.error("shader can't be 0!");
         }
         int program = GLES20.glCreateProgram();
         checkGlError("glCreateProgram");
 
         if (program == 0) {
-            logger.error("program cant be 0!");
+            logger.error("program can't be 0!");
+            return 0;
         }
         GLES20.glAttachShader(program, vertexShader);
         checkGlError("glAttachShader");
@@ -190,6 +191,9 @@ public class GLESUtils {
 
     public static boolean isSupportGL20(Context context) {
         final ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        if (activityManager == null) {
+            return false;
+        }
         final ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
         return configurationInfo.reqGlEsVersion >= 0x2000;
     }

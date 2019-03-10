@@ -41,8 +41,7 @@ public class LineView extends GraphView {
     }
 
     @Override
-    public void onDrawFrame(GL10 gl10) {
-        super.onDrawFrame(gl10);
+    public void onDrawFrame() {
         mLine.onDrawFrame();
     }
 }

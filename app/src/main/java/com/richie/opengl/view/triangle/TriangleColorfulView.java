@@ -42,7 +42,7 @@ public class TriangleColorfulView extends GraphView {
     }
 
     @Override
-    public void onDrawFrame(GL10 gl10) {
+    public void onDrawFrame() {
         mTriangle.onDrawFrame();
     }
 }

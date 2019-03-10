@@ -64,7 +64,7 @@ public class Line implements GraphRender {
 
     @Override
     public void onSurfaceChanged(int width, int height) {
-        float ratio = (float) width / height;
+        float ratio = 1.0f * width / height;
         mMatrixState.frustum(-ratio, ratio, -1, 1, 2.5f, 6);
         mMatrixState.setCamera(0, 0, 3, 0, 0, 0, 0, 1, 0);
         mMatrixState.translate(0.2f, 0, 0);

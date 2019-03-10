@@ -76,8 +76,8 @@ public class Image implements GraphRender {
         int w = options.outWidth;
         int h = options.outHeight;
         // 1000*645, 1080*1920
-        float sWH = w / (float) h;
-        float sWidthHeight = width / (float) height;
+        float sWH = 1.0f * w / h;
+        float sWidthHeight = 1.0f * width / height;
         if (width > height) {
             if (sWH > sWidthHeight) {
                 // 正交投影
