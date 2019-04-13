@@ -3,6 +3,7 @@ package com.richie.opengl.view.image;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import com.richie.opengl.util.LimitFpsUtil;
 import com.richie.opengl.view.GraphView;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -42,6 +43,8 @@ public class ImageGLView extends GraphView {
 
     @Override
     public void onDrawFrame() {
+        LimitFpsUtil.limitFrameRate(30);
         mImage.onDrawFrame();
+        requestRender();
     }
 }

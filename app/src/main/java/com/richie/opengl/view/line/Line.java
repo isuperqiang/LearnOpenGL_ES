@@ -18,6 +18,7 @@ public class Line implements GraphRender {
                     "attribute vec4 aPosition;" +
                     "void main() {" +
                     "  gl_Position = uMVPMatrix * aPosition;" +
+                    "  gl_PointSize = 20.0;" +
                     "}";
     private static final String FRAGMENT_SHADER =
             "precision mediump float;" +
@@ -33,14 +34,13 @@ public class Line implements GraphRender {
             0.5f, 0.5f,
             -0.5f, 0.5f,
             -0.5f, -0.5f,
-            0.5f, -0.5f
+            0.5f, -0.5f,
+            0f, 0f
     };
 
     private FloatBuffer mVertexBuffer;
     private int mProgram;
     private float[] mMvpMatrix = new float[16];
-    private float[] mViewMatrix = new float[16];
-    private float[] mProjectionMatrix = new float[16];
     private int mPositionHandle;
     private int mColorHandle;
     private int mMvpMatrixHandle;
@@ -64,10 +64,10 @@ public class Line implements GraphRender {
 
     @Override
     public void onSurfaceChanged(int width, int height) {
-        float ratio = 1.0f * width / height;
+        float ratio = (float) width / height;
         mMatrixState.frustum(-ratio, ratio, -1, 1, 2.5f, 6);
         mMatrixState.setCamera(0, 0, 3, 0, 0, 0, 0, 1, 0);
-        mMatrixState.translate(0.2f, 0, 0);
+        //mMatrixState.translate(0.2f, 0, 0);
         mMatrixState.rotate(30, 0, 0, 1);
         mMatrixState.scale(1, 0.8f, 1);
         mMvpMatrix = mMatrixState.getFinalMatrix();
@@ -79,11 +79,13 @@ public class Line implements GraphRender {
         GLES20.glLineWidth(10f);
         GLES20.glEnableVertexAttribArray(mPositionHandle);
         GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false,
-                COORDS_PER_VERTEX * GLESUtils.SIZEOF_FLOAT, mVertexBuffer);
+                0, mVertexBuffer);
         GLES20.glUniform4fv(mColorHandle, 1, COLORS, 0);
         GLES20.glUniformMatrix4fv(mMvpMatrixHandle, 1, false, mMvpMatrix, 0);
-        GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, 0, VERTEX_COORDS.length / COORDS_PER_VERTEX);
-
+        // 绘制多条线
+        GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, 0, 4);
+        // 绘制点
+        GLES20.glDrawArrays(GLES20.GL_POINTS, 4, 1);
         GLES20.glDisableVertexAttribArray(mPositionHandle);
         GLES20.glUseProgram(0);
     }

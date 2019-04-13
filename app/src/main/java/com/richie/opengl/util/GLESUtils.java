@@ -17,7 +17,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-public class GLESUtils {
+public final class GLESUtils {
     /**
      * Identity matrix for general use.  Don't modify or life will get weird.
      */
@@ -65,7 +65,6 @@ public class GLESUtils {
         }
         int program = GLES20.glCreateProgram();
         checkGlError("glCreateProgram");
-
         if (program == 0) {
             logger.error("program can't be 0!");
             return 0;
@@ -78,7 +77,7 @@ public class GLESUtils {
         int[] linkStatus = new int[1];
         GLES20.glGetProgramiv(program, GLES20.GL_LINK_STATUS, linkStatus, 0);
         if (linkStatus[0] != GLES20.GL_TRUE) {
-            logger.error("link program error!");
+            logger.error("link program error. {}", GLES20.glGetProgramInfoLog(program));
             GLES20.glDeleteProgram(program);
             program = 0;
         }
@@ -91,6 +90,14 @@ public class GLESUtils {
             String msg = op + ": glError 0x" + Integer.toHexString(error);
             logger.error("CheckGlError: {}", msg);
         }
+    }
+
+    // 开发或调试的时候验证
+    public static boolean validateProgram(int programId) {
+        GLES20.glValidateProgram(programId);
+        int[] validateStatus = new int[1];
+        GLES20.glGetProgramiv(programId, GLES20.GL_VALIDATE_STATUS, validateStatus, 0);
+        return validateStatus[0] != 0;
     }
 
     // 通过传入图片宽高和预览宽高，计算变换矩阵，得到的变换矩阵是预览类似ImageView的centerCrop效果
@@ -195,7 +202,7 @@ public class GLESUtils {
             return false;
         }
         final ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
-        return configurationInfo.reqGlEsVersion >= 0x2000;
+        return configurationInfo.reqGlEsVersion >= 0x20000;
     }
 
     public static String readTextFileFromResource(Context context, int resourceId) throws IOException {

@@ -8,7 +8,7 @@ import java.util.Stack;
 /**
  * @author Richie on 2018.08.23
  */
-public class MatrixState {
+public final class MatrixState {
     //相机矩阵
     private float[] mMatrixCamera = new float[16];
     //投影矩阵
