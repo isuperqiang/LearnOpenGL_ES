@@ -22,8 +22,6 @@ public final class LimitFpsUtil {
         if (timeToSleepMs > 0) {
             SystemClock.sleep(timeToSleepMs);
         }
-
-        logFrameRate();
         frameStartTimeMs = SystemClock.elapsedRealtime();
     }
 

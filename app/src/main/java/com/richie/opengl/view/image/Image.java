@@ -28,10 +28,10 @@ public class Image implements GraphRender {
                     "}";
     private static final String FRAGMENT_SHADER =
             "precision mediump float;" +
-                    "uniform sampler2D sTexture;" +
+                    "uniform sampler2D uTextureUnit;" +
                     "varying vec2 vTexCoord;" +
                     "void main() {" +
-                    "  gl_FragColor = texture2D(sTexture, vTexCoord);" +
+                    "  gl_FragColor = texture2D(uTextureUnit, vTexCoord);" +
                     "}";
     private static final int COORDS_PER_VERTEX = 2;
     private static final int COORDS_PER_TEXTURE = 2;
@@ -70,12 +70,13 @@ public class Image implements GraphRender {
         mPositionHandle = GLES20.glGetAttribLocation(mProgram, "aPosition");
         mMvpMatrixHandle = GLES20.glGetUniformLocation(mProgram, "uMVPMatrix");
         mTexCoordHandle = GLES20.glGetAttribLocation(mProgram, "aTexCoord");
+        int texUnitHandle = GLES20.glGetAttribLocation(mProgram, "uTextureUnit");
 
         // 加载图片并且保存在 OpenGL 纹理系统中
-        int[] texture = new int[1];
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inScaled = false;
         Bitmap bitmap = BitmapFactory.decodeResource(GlApp.getContext().getResources(), R.drawable.cat, options);
+        int[] texture = new int[1];
         GLES20.glGenTextures(1, texture, 0);
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
         //生成纹理
@@ -90,7 +91,8 @@ public class Image implements GraphRender {
         GLES20.glTexParameterf(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
         //根据以上指定的参数，生成一个2D纹理
         GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bitmap, 0);
-        bitmap.recycle();
+        // 把选定的纹理单元传给片段着色器
+        GLES20.glUniform1i(texUnitHandle, 0);
     }
 
     @Override
@@ -103,9 +105,10 @@ public class Image implements GraphRender {
         int w = options.outWidth;
         int h = options.outHeight;
         // 1000*645, 1080*1920
-        float sWH = 1.0f * w / h;
-        float sWidthHeight = 1.0f * width / height;
+        float sWH = (float) w / h;
+        float sWidthHeight = (float) width / height;
         if (width > height) {
+            // landscape
             if (sWH > sWidthHeight) {
                 // 正交投影
                 Matrix.orthoM(mProjectionMatrix, 0, -sWidthHeight * sWH, sWidthHeight * sWH, -1, 1, 3, 5);
@@ -113,6 +116,7 @@ public class Image implements GraphRender {
                 Matrix.orthoM(mProjectionMatrix, 0, -sWidthHeight / sWH, sWidthHeight / sWH, -1, 1, 3, 5);
             }
         } else {
+            // portrait or square
             if (sWH > sWidthHeight) {
                 Matrix.orthoM(mProjectionMatrix, 0, -1, 1, -1 / sWidthHeight * sWH, 1 / sWidthHeight * sWH, 3, 5);
             } else {
@@ -134,11 +138,11 @@ public class Image implements GraphRender {
         // 传入顶点坐标
         GLES20.glEnableVertexAttribArray(mPositionHandle);
         GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false,
-                COORDS_PER_VERTEX * GLESUtils.SIZEOF_FLOAT, mVertexBuffer);
+                0, mVertexBuffer);
         // 传入纹理坐标
         GLES20.glEnableVertexAttribArray(mTexCoordHandle);
         GLES20.glVertexAttribPointer(mTexCoordHandle, COORDS_PER_TEXTURE, GLES20.GL_FLOAT, false,
-                COORDS_PER_TEXTURE * GLESUtils.SIZEOF_FLOAT, mTextureBuffer);
+                0, mTextureBuffer);
 
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
         GLES20.glDisableVertexAttribArray(mPositionHandle);

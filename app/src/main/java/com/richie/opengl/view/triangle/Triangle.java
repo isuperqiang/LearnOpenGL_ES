@@ -55,7 +55,7 @@ public class Triangle implements GraphRender {
 
     @Override
     public void onSurfaceChanged(int width, int height) {
-        float ratio = 1.0f * width / height;
+        float ratio = (float) width / height;
         Matrix.frustumM(mProjectionMatrix, 0, -ratio, ratio, -1, 1, 2.5f, 6);
         Matrix.setLookAtM(mViewMatrix, 0, 0, 0, 3, 0, 0, 0, 0, 1, 0);
         Matrix.multiplyMM(mMvpMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
@@ -66,7 +66,7 @@ public class Triangle implements GraphRender {
         GLES20.glUseProgram(mProgram);
         GLES20.glEnableVertexAttribArray(mPositionHandle);
         GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false,
-                COORDS_PER_VERTEX * GLESUtils.SIZEOF_FLOAT, mVertexBuffer);
+                0, mVertexBuffer);
         GLES20.glUniform4fv(mColorHandle, 1, COLORS, 0);
 
         GLES20.glUniformMatrix4fv(mMvpMatrixHandle, 1, false, mMvpMatrix, 0);

@@ -77,15 +77,16 @@ public class Line implements GraphRender {
     public void onDrawFrame() {
         GLES20.glUseProgram(mProgram);
         GLES20.glLineWidth(10f);
+
         GLES20.glEnableVertexAttribArray(mPositionHandle);
         GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false,
                 0, mVertexBuffer);
         GLES20.glUniform4fv(mColorHandle, 1, COLORS, 0);
         GLES20.glUniformMatrix4fv(mMvpMatrixHandle, 1, false, mMvpMatrix, 0);
-        // 绘制多条线
+
         GLES20.glDrawArrays(GLES20.GL_LINE_LOOP, 0, 4);
-        // 绘制点
         GLES20.glDrawArrays(GLES20.GL_POINTS, 4, 1);
+
         GLES20.glDisableVertexAttribArray(mPositionHandle);
         GLES20.glUseProgram(0);
     }

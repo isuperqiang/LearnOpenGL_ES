@@ -64,11 +64,9 @@ public class Square implements GraphRender {
     public void onDrawFrame() {
         GLES20.glUseProgram(mProgram);
         GLES20.glUniformMatrix4fv(mMvpMatrixHandle, 1, false, mMvpMatrix, 0);
-
         GLES20.glEnableVertexAttribArray(mPositionHandle);
         GLES20.glVertexAttribPointer(mPositionHandle, COORDS_PER_VERTEX, GLES20.GL_FLOAT, false,
-                COORDS_PER_VERTEX * GLESUtils.SIZEOF_FLOAT, mVertexBuffer);
-
+                0, mVertexBuffer);
         GLES20.glUniform4fv(mColorHandle, 1, COLORS, 0);
 
         GLES20.glDrawArrays(GLES20.GL_TRIANGLE_STRIP, 0, 4);
