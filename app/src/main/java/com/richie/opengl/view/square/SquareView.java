@@ -12,7 +12,7 @@ import javax.microedition.khronos.opengles.GL10;
  * @author Richie on 2018.08.05
  */
 public class SquareView extends GraphView {
-    private Square mSquare;
+    private SquareRenderer mSquare;
 
     public SquareView(Context context) {
         super(context);
@@ -25,7 +25,7 @@ public class SquareView extends GraphView {
     @Override
     protected void onConstruct() {
         super.onConstruct();
-        mSquare = new Square();
+        mSquare = new SquareRenderer();
     }
 
     @Override

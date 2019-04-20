@@ -29,11 +29,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.btn_square).setOnClickListener(this);
         findViewById(R.id.btn_graph).setOnClickListener(this);
         findViewById(R.id.btn_line).setOnClickListener(this);
+        findViewById(R.id.btn_camera).setOnClickListener(this);
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 100);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
         }
-
     }
 
     @Override
@@ -50,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             intent = new Intent(this, ImageActivity.class);
         } else if (id == R.id.btn_line) {
             intent = new Intent(this, LineActivity.class);
+        } else if (id == R.id.btn_camera) {
+            intent = new Intent(this, CameraActivity.class);
         }
         if (intent != null) {
             startActivity(intent);

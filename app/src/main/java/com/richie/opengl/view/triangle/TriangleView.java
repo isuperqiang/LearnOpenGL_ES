@@ -13,7 +13,7 @@ import javax.microedition.khronos.opengles.GL10;
  * 绘制三角形
  */
 public class TriangleView extends GraphView {
-    private Triangle mTriangle;
+    private TriangleRenderer mTriangle;
 
     public TriangleView(Context context) {
         super(context);
@@ -26,7 +26,7 @@ public class TriangleView extends GraphView {
     @Override
     protected void onConstruct() {
         super.onConstruct();
-        mTriangle = new Triangle();
+        mTriangle = new TriangleRenderer();
     }
 
     @Override

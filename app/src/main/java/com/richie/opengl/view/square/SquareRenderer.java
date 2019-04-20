@@ -4,14 +4,14 @@ import android.opengl.GLES20;
 import android.opengl.Matrix;
 
 import com.richie.opengl.util.GLESUtils;
-import com.richie.opengl.view.GraphRender;
+import com.richie.opengl.view.GraphRenderer;
 
 import java.nio.FloatBuffer;
 
 /**
  * @author Richie on 2018.08.05
  */
-public class Square implements GraphRender {
+public class SquareRenderer implements GraphRenderer {
     private static final String VERTEX_SHADER =
             "uniform mat4 uMVPMatrix;" +
                     "attribute vec4 aPosition;" +

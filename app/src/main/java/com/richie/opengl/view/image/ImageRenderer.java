@@ -9,14 +9,14 @@ import android.opengl.Matrix;
 import com.richie.opengl.GlApp;
 import com.richie.opengl.R;
 import com.richie.opengl.util.GLESUtils;
-import com.richie.opengl.view.GraphRender;
+import com.richie.opengl.view.GraphRenderer;
 
 import java.nio.FloatBuffer;
 
 /**
  * @author Richie on 2018.08.06
  */
-public class Image implements GraphRender {
+public class ImageRenderer implements GraphRenderer {
     private static final String VERTEX_SHADER =
             "uniform mat4 uMVPMatrix;" +
                     "attribute vec4 aPosition;" +
@@ -57,7 +57,7 @@ public class Image implements GraphRender {
     private int mPositionHandle;
     private int mTexCoordHandle;
 
-    public Image() {
+    public ImageRenderer() {
         mVertexBuffer = GLESUtils.createFloatBuffer(VERTEX);
         mTextureBuffer = GLESUtils.createFloatBuffer(TEXTURE);
     }

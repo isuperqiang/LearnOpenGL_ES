@@ -13,7 +13,7 @@ import javax.microedition.khronos.opengles.GL10;
  * 绘制多彩三角形
  */
 public class TriangleColorfulView extends GraphView {
-    private TriangleColorful mTriangle;
+    private TriangleColorfulRenderer mTriangle;
 
     public TriangleColorfulView(Context context) {
         super(context);
@@ -26,7 +26,7 @@ public class TriangleColorfulView extends GraphView {
     @Override
     protected void onConstruct() {
         super.onConstruct();
-        mTriangle = new TriangleColorful();
+        mTriangle = new TriangleColorfulRenderer();
     }
 
     @Override

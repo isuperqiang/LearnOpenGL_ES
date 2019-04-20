@@ -13,7 +13,7 @@ import javax.microedition.khronos.opengles.GL10;
  * @author Richie on 2018.08.06
  */
 public class ImageGLView extends GraphView {
-    private Image mImage;
+    private ImageRenderer mImage;
 
     public ImageGLView(Context context) {
         super(context);
@@ -26,7 +26,7 @@ public class ImageGLView extends GraphView {
     @Override
     protected void onConstruct() {
         super.onConstruct();
-        mImage = new Image();
+        mImage = new ImageRenderer();
     }
 
     @Override

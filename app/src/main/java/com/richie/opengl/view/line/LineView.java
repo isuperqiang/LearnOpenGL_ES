@@ -12,7 +12,7 @@ import javax.microedition.khronos.opengles.GL10;
  * @author Richie on 2018.08.23
  */
 public class LineView extends GraphView {
-    private Line mLine;
+    private LineRenderer mLine;
 
     public LineView(Context context) {
         super(context);
@@ -25,7 +25,7 @@ public class LineView extends GraphView {
     @Override
     protected void onConstruct() {
         super.onConstruct();
-        mLine = new Line();
+        mLine = new LineRenderer();
     }
 
     @Override
