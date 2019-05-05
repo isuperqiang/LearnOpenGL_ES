@@ -18,7 +18,7 @@
         android:resizeableActivity="false"
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.CameraActivity"></activity>
+        <activity android:name=".activity.CameraActivity" />
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTop">
