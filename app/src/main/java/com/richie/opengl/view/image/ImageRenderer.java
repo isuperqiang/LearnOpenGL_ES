@@ -49,13 +49,15 @@ public class ImageRenderer implements GraphRenderer {
     };
     private final FloatBuffer mVertexBuffer;
     private final FloatBuffer mTextureBuffer;
-    private final float[] mMVPMatrix = new float[16];
+    private float[] mMVPMatrix = new float[16];
     private final float[] mProjectionMatrix = new float[16];
     private final float[] mViewMatrix = new float[16];
     private int mProgram;
     private int mMvpMatrixHandle;
     private int mPositionHandle;
     private int mTexCoordHandle;
+    private int mBitmapWidth;
+    private int mBitmapHeight;
 
     public ImageRenderer() {
         mVertexBuffer = GLESUtils.createFloatBuffer(VERTEX);
@@ -76,6 +78,8 @@ public class ImageRenderer implements GraphRenderer {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inScaled = false;
         Bitmap bitmap = BitmapFactory.decodeResource(GlApp.getContext().getResources(), R.drawable.cat, options);
+        mBitmapWidth = bitmap.getWidth();
+        mBitmapHeight = bitmap.getHeight();
         int[] texture = new int[1];
         GLES20.glGenTextures(1, texture, 0);
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
@@ -127,6 +131,9 @@ public class ImageRenderer implements GraphRenderer {
         Matrix.setLookAtM(mViewMatrix, 0, 0, 0, 5.0f, 0f, 0f, 0f, 0f, 1.0f, 0.0f);
         //计算变换矩阵
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mViewMatrix, 0);
+
+        // 或者直接使用
+        // mMVPMatrix = GLESUtils.changeMvpMatrixInside(width, height,mBitmapWidth,mBitmapHeight);
     }
 
     @Override

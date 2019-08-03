@@ -110,8 +110,7 @@ public class CameraRenderer implements GraphRenderer {
     public void onSurfaceChanged(int width, int height) {
         logger.info("onSurfaceChanged width:{}, height:{}, prevHeight:{}, prevWidth:{}",
                 width, height, mPreviewHeight, mPreviewWidth);
-        mMvpMatrix = Arrays.copyOf(GLESUtils.IDENTITY_MATRIX, 16);
-        GLESUtils.changeMVPMatrix(mMvpMatrix, width, height, mPreviewHeight, mPreviewWidth);
+        mMvpMatrix = GLESUtils.changeMvpMatrixCrop(width, height, mPreviewHeight, mPreviewWidth);
         GLESUtils.rotate(mMvpMatrix, 180);
         GLESUtils.flip(mMvpMatrix, true, false);
         logger.info("MVPMatrix:{}", Arrays.toString(mMvpMatrix));

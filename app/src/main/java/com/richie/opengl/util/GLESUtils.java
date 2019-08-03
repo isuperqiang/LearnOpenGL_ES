@@ -245,18 +245,20 @@ public final class GLESUtils {
         return body.toString();
     }
 
-    public static float[] changeMVPMatrix(float[] mvpMatrix, float viewWidth, float viewHeight, float textureWidth, float textureHeight) {
+    public static float[] changeMvpMatrixInside(float viewWidth, float viewHeight, float textureWidth, float textureHeight) {
         float scale = viewWidth * textureHeight / viewHeight / textureWidth;
-        if (scale == 1) {
-            return mvpMatrix;
-        } else {
-            float[] mvp = new float[16];
-            float[] tmp = new float[16];
-            Matrix.setIdentityM(tmp, 0);
-            Matrix.scaleM(tmp, 0, scale > 1 ? 1F : (1F / scale), scale > 1 ? scale : 1F, 1F);
-            Matrix.multiplyMM(mvp, 0, tmp, 0, mvpMatrix, 0);
-            return mvp;
-        }
+        float[] mvp = new float[16];
+        Matrix.setIdentityM(mvp, 0);
+        Matrix.scaleM(mvp, 0, scale > 1 ? (1F / scale) : 1F, scale > 1 ? 1F : scale, 1F);
+        return mvp;
+    }
+
+    public static float[] changeMvpMatrixCrop(float viewWidth, float viewHeight, float textureWidth, float textureHeight) {
+        float scale = viewWidth * textureHeight / viewHeight / textureWidth;
+        float[] mvp = new float[16];
+        Matrix.setIdentityM(mvp, 0);
+        Matrix.scaleM(mvp, 0, scale > 1 ? 1F : (1F / scale), scale > 1 ? scale : 1F, 1F);
+        return mvp;
     }
 
     public static void createFBO(int[] fboTex, int[] fboId, int width, int height) {
